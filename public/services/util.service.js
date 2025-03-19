@@ -38,7 +38,6 @@ function getRandomIntInclusive(min, max) {
 // bug.service.local that in the public to
 // bug.service that in the services
 
-// FIX THE BUG - undefined
 function loadFromStorage(keyDB) {
     const val = localStorage.getItem(keyDB)
     return JSON.parse(val)

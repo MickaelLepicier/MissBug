@@ -1,10 +1,12 @@
 import express from 'express'
+import cors from "cors"
 import cookieParser from 'cookie-parser'
 
 import {bugService} from './services/bug.service.js'
 import { loggerService } from '../../inClass-node-server/services/logger.service.js'
 
 const app = express()
+app.use(cors())
 app.use(express.static('public'))
 app.use(cookieParser())
 

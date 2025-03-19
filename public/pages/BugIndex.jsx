@@ -1,6 +1,16 @@
 const { useState, useEffect } = React
 
-import { bugServiceLocal } from '../services/bug.service.local.js'
+
+
+// now making all the questions for the appointment
+// and what do I want to do with him
+
+// Target - Answers for the questions and then going throw the code for me to understand
+// QUESTIONs:
+// 1.  is it normal to have 2 filse named bugService? 
+// 2. is there a way to succeed without the cors Module? (bug.service.local.js)
+
+import { bugService } from '../services/bug.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 
 import { BugFilter } from '../cmps/BugFilter.jsx'
@@ -8,18 +18,18 @@ import { BugList } from '../cmps/BugList.jsx'
 
 export function BugIndex() {
     const [bugs, setBugs] = useState(null)
-    const [filterBy, setFilterBy] = useState(bugServiceLocal.getDefaultFilter())
+    const [filterBy, setFilterBy] = useState(bugService.getDefaultFilter())
 
     useEffect(loadBugs, [filterBy])
 
     function loadBugs() {
-        bugServiceLocal.query(filterBy)
+        bugService.query(filterBy)
             .then(setBugs)
             .catch(err => showErrorMsg(`Couldn't load bugs - ${err}`))
     }
 
     function onRemoveBug(bugId) {
-        bugServiceLocal.remove(bugId)
+        bugService.remove(bugId)
             .then(() => {
                 const bugsToUpdate = bugs.filter(bug => bug._id !== bugId)
                 setBugs(bugsToUpdate)
@@ -34,7 +44,7 @@ export function BugIndex() {
             severity: +prompt('Bug severity?', 3)
         }
 
-        bugServiceLocal.save(bug)
+        bugService.save(bug)
             .then(savedBug => {
                 setBugs([...bugs, savedBug])
                 showSuccessMsg('Bug added')
@@ -46,7 +56,7 @@ export function BugIndex() {
         const severity = +prompt('New severity?', bug.severity)
         const bugToSave = { ...bug, severity }
 
-        bugServiceLocal.save(bugToSave)
+        bugService.save(bugToSave)
             .then(savedBug => {
                 const bugsToUpdate = bugs.map(currBug =>
                     currBug._id === savedBug._id ? savedBug : currBug)
