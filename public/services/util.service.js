@@ -1,4 +1,4 @@
-export const utilService = {
+export const utilServiceLocal = {
     makeId,
     makeLorem,
     getRandomIntInclusive,
@@ -34,6 +34,11 @@ function getRandomIntInclusive(min, max) {
 }
 
 
+// TODO check the diffrence between:
+// bug.service.local that in the public to
+// bug.service that in the services
+
+// FIX THE BUG - undefined
 function loadFromStorage(keyDB) {
     const val = localStorage.getItem(keyDB)
     return JSON.parse(val)

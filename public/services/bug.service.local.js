@@ -1,11 +1,12 @@
-import { utilService } from './util.service.js'
+// import { utilServiceLocal } from './util.service.js'
+import { utilServiceLocal } from '../../services/util.service.js'
 import { storageService } from './async-storage.service.js'
 
-const STORAGE_KEY = 'bugs'
+const STORAGE_KEY = 'bugsDB'
 
 _createBugs()
 
-export const bugService = {
+export const bugServiceLocal = {
     query,
     getById,
     save,
@@ -47,7 +48,12 @@ function save(bug) {
 }
 
 function _createBugs() {
-    let bugs = utilService.loadFromStorage(STORAGE_KEY)
+    // TODO Qustion - how can I make it work with loadFromStorage?
+    // The problem is that Node.js don't have loadFromStorage
+    // let bugs = utilServiceLocal.readJsonFile('data/bug.json')
+
+    let bugs = utilServiceLocal.loadFromStorage(STORAGE_KEY)
+
     if (bugs && bugs.length > 0) return 
 
     bugs = [
@@ -72,7 +78,7 @@ function _createBugs() {
             _id: "G0053"
         }
     ]
-    utilService.saveToStorage(STORAGE_KEY, bugs)
+    utilServiceLocal.saveToStorage(STORAGE_KEY, bugs)
 }
 
 function getDefaultFilter() {

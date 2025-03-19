@@ -2,8 +2,9 @@
   "name": "ex-missbug",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "nodemon --ignore \"./data\" server.mjs",
+    "start": "nodemon --ignore \"./data\" server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
