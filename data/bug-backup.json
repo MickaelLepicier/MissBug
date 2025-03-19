@@ -1,30 +1,72 @@
 [
   {
-    "_id": "1NF1N1T3",
-    "title": "Infinite Loop Detected",
-    "description": "problem when clicking Save",
-    "severity": 4,
-    "createdAt": 1542107359454
-  },
-  {
-    "_id": "K3YB0RD",
-    "title": "Keyboard Not Found",
-    "description": "problem when clicking Save",
+    "_id": "BUG12345",
+    "title": "Unexpected App Crash",
+    "description": "App crashes when clicking the submit button",
     "severity": 3,
-    "createdAt": 1542107359454
+    "createdAt": 1678901234567
   },
   {
-    "_id": "C0FF33",
-    "title": "404 Coffee Not Found",
-    "description": "problem when clicking Save",
+    "_id": "X1Y2Z3A4",
+    "title": "Login Failure",
+    "description": "Users unable to log in with correct credentials",
+    "severity": 5,
+    "createdAt": 1689054321789
+  },
+  {
+    "_id": "5GD67890",
+    "title": "UI Glitch on Mobile",
+    "description": "Navbar overlaps content on small screens",
     "severity": 2,
-    "createdAt": 1542107359454
+    "createdAt": 1690123456789
   },
   {
-    "_id": "G0053",
-    "title": "Unexpected Response",
-    "description": "problem when clicking Save",
-    "severity": 1,
-    "createdAt": 1542107359454
+    "_id": "NET404ERR",
+    "title": "Network Timeout",
+    "description": "Fetching data takes too long on slow connections",
+    "severity": 4,
+    "createdAt": 1683456789123
+  },
+  {
+    "_id": "DB_CONN_FAIL",
+    "title": "Database Connection Issue",
+    "description": "Intermittent failure when connecting to database",
+    "severity": 5,
+    "createdAt": 1676543210987
+  },
+  {
+    "_id": "CACHE12345",
+    "title": "Cache Not Updating",
+    "description": "Data remains outdated even after refresh",
+    "severity": 3,
+    "createdAt": 1698765432101
+  },
+  {
+    "_id": "ANIM_GLITCH",
+    "title": "Animation Lag",
+    "description": "Page transition animations stutter in Safari",
+    "severity": 2,
+    "createdAt": 1684321098765
+  },
+  {
+    "_id": "SECURITY_HOLE",
+    "title": "Security Vulnerability",
+    "description": "XSS vulnerability detected in input fields",
+    "severity": 5,
+    "createdAt": 1695432109876
+  },
+  {
+    "_id": "EMAIL_FAIL",
+    "title": "Email Not Sending",
+    "description": "Password reset emails are not delivered",
+    "severity": 4,
+    "createdAt": 1687654321098
+  },
+  {
+    "_id": "404_MISSING",
+    "title": "Missing Page",
+    "description": "Clicking Help redirects to a 404 page",
+    "severity": 2,
+    "createdAt": 1679876543210
   }
 ]

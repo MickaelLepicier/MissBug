@@ -1,6 +1,6 @@
 const { useState, useEffect } = React
 
-import { bugService } from '../services/bug.service.local.js'
+import { bugServiceLocal } from '../services/bug.service.local.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 
 import { BugFilter } from '../cmps/BugFilter.jsx'
@@ -8,18 +8,18 @@ import { BugList } from '../cmps/BugList.jsx'
 
 export function BugIndex() {
     const [bugs, setBugs] = useState(null)
-    const [filterBy, setFilterBy] = useState(bugService.getDefaultFilter())
+    const [filterBy, setFilterBy] = useState(bugServiceLocal.getDefaultFilter())
 
     useEffect(loadBugs, [filterBy])
 
     function loadBugs() {
-        bugService.query(filterBy)
+        bugServiceLocal.query(filterBy)
             .then(setBugs)
             .catch(err => showErrorMsg(`Couldn't load bugs - ${err}`))
     }
 
     function onRemoveBug(bugId) {
-        bugService.remove(bugId)
+        bugServiceLocal.remove(bugId)
             .then(() => {
                 const bugsToUpdate = bugs.filter(bug => bug._id !== bugId)
                 setBugs(bugsToUpdate)
@@ -34,7 +34,7 @@ export function BugIndex() {
             severity: +prompt('Bug severity?', 3)
         }
 
-        bugService.save(bug)
+        bugServiceLocal.save(bug)
             .then(savedBug => {
                 setBugs([...bugs, savedBug])
                 showSuccessMsg('Bug added')
@@ -46,7 +46,7 @@ export function BugIndex() {
         const severity = +prompt('New severity?', bug.severity)
         const bugToSave = { ...bug, severity }
 
-        bugService.save(bugToSave)
+        bugServiceLocal.save(bugToSave)
             .then(savedBug => {
                 const bugsToUpdate = bugs.map(currBug =>
                     currBug._id === savedBug._id ? savedBug : currBug)
