@@ -1,15 +1,5 @@
 const { useState, useEffect } = React
 
-
-
-// now making all the questions for the appointment
-// and what do I want to do with him
-
-// Target - Answers for the questions and then going throw the code for me to understand
-// QUESTIONs:
-// 1.  is it normal to have 2 filse named bugService? 
-// 2. is there a way to succeed without the cors Module? (bug.service.local.js)
-
 import { bugService } from '../services/bug.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 

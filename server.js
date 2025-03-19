@@ -5,6 +5,26 @@ import cookieParser from 'cookie-parser'
 import {bugService} from './services/bug.service.js'
 import { loggerService } from '../../inClass-node-server/services/logger.service.js'
 
+// TODO: the link - http://127.0.0.1:3030/#/bug
+// keep going with the cookies
+// cookieParser - check the inClass and the video
+
+// inClass - server.js line 83: 
+/*
+
+app.get('/cookies', (req, res) => {
+    let visitedCount = req.cookies.visitedCount || 0
+    visitedCount++
+    console.log('visitedCount:', visitedCount)
+    res.cookie('visitedCount', visitedCount, { maxAge: 5 * 1000 })
+    // console.log('visitedCount:', visitedCount)
+    res.send('Hello Puki')
+})
+
+*/
+
+
+
 const app = express()
 app.use(cors())
 app.use(express.static('public'))
@@ -70,6 +90,10 @@ app.get('/api/bug/:bugId/remove', (req, res) => {
     })
 })
 
+
+app.get('/api/logs', (req, res) => {
+  res.sendFile(process.cwd() + '/logs/backend.log')
+})
 
 const port = 3030
 app.listen(port, () => console.log('Server ready at port 3030'))

@@ -1,8 +1,6 @@
 import { utilServiceLocal } from './util.service.js'
 import { storageService } from './async-storage.service.js'
 
-// TODO QUESTION is there a way to succeed without the cors Module?
-// and that the BASE_URL will be just '/api/bug/'?
 
 const BUG_KEY = 'bugsDB'
 const BASE_URL = '/api/bug/'
