@@ -13,7 +13,9 @@ export const bugService = {
   getById,
   save,
   remove,
-  getDefaultFilter
+  getEmptyBug,
+  getDefaultFilter,
+  getFilterFromSearchParams
 }
 
 function query(filterBy) {
@@ -21,13 +23,14 @@ function query(filterBy) {
     .get(BASE_URL)
     .then((res) => res.data)
     .then((bugs) => {
-      if (filterBy.title) {
+
+      if (filterBy.txt) {
         const regExp = new RegExp(filterBy.txt, 'i')
         bugs = bugs.filter((bug) => regExp.test(bug.title))
       }
 
-      if (filterBy.severity) {
-        bugs = bugs.filter((bug) => bug.severity >= filterBy.severity)
+      if (filterBy.minSeverity) {
+        bugs = bugs.filter((bug) => bug.severity >= filterBy.minSeverity)
       }
 
       return bugs
@@ -57,20 +60,20 @@ function save(bug) {
     .catch((err) => console.log('err: ', err))
 }
 
-function getEmptyBug(title = '', severity = '') {
-  return { title, severity }
+function getEmptyBug(txt = '', minSeverity = '') {
+  return { txt, minSeverity }
 }
 
 function getDefaultFilter() {
-  return { title: '', severity: '' }
+  return { txt: '', minSeverity: '' }
 }
 
 function getFilterFromSearchParams(searchParams) {
-  const title = searchParams.get('title') || ''
-  const severity = searchParams.get('severity') || ''
+  const txt = searchParams.get('txt') || ''
+  const minSeverity = searchParams.get('minSeverity') || ''
   return {
-    title,
-    severity
+    txt,
+    minSeverity
   }
 }
 
