@@ -35,6 +35,8 @@ function query(filterBy) {
 }
 
 function getById(bugId) {
+  console.log('bugId: ',bugId)
+  
   return axios
     .get(BASE_URL + bugId)
     .then((res) => res.data)

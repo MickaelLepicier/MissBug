@@ -3,7 +3,8 @@ import cors from "cors"
 import cookieParser from 'cookie-parser'
 
 import {bugService} from './services/bug.service.js'
-import { loggerService } from '../../inClass-node-server/services/logger.service.js'
+import { loggerService } from './services/logger.service.js'
+
 
 // TODO: the link - http://127.0.0.1:3030/#/bug
 // keep going with the cookies
@@ -11,6 +12,8 @@ import { loggerService } from '../../inClass-node-server/services/logger.service
 
 // inClass - server.js line 83: 
 /*
+
+TODO listen to the video and check with chat GPT 
 
 app.get('/cookies', (req, res) => {
     let visitedCount = req.cookies.visitedCount || 0
@@ -68,9 +71,34 @@ app.get('/api/bug/save', (req, res) => {
 app.get('/api/bug/:bugId', (req, res) => {
   const { bugId } = req.params
 
+  let visitedBugCount = req.cookies.visitedBugCount || 0
+  let visitedBugs = req.cookies.visitedBugs || []
+
+  if(visitedBugCount >= 3){
+    // loggerService.error('Cannot save bug')
+    return res.status(403).send('Usage limit reached! Please try again later.')
+  }
+
+  if(visitedBugs.length >= 3){
+    return res.status(401).send('Wait for a bit')
+  }
+
   bugService
     .getById(bugId)
-    .then((bug) => res.send(bug))
+    .then((bug) =>{
+        visitedBugCount++
+        res.cookie('visitedBugCount', visitedBugCount,{maxAge: 10 * 1000} )
+      
+        if(!visitedBugs.includes(bugId)){
+           visitedBugs.unshift(bugId)
+           res.cookie('visitedBugs', visitedBugs, {maxAge: 7 * 1000})
+       }
+        
+        // console.log('visitedBugCount: ',visitedBugCount)
+        console.log('User visited at the following bugs: ',visitedBugs)
+        res.send(bug)
+    
+})
     .catch((err) => {
       loggerService.error('Cannot get bug', err)
       res.status(500).send('Cannot load bug')
@@ -96,4 +124,4 @@ app.get('/api/logs', (req, res) => {
 })
 
 const port = 3030
-app.listen(port, () => console.log('Server ready at port 3030'))
+app.listen(port, () => console.log(`Server ready at: http://localhost:${port}`))
