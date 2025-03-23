@@ -1,10 +1,8 @@
 import { utilServiceLocal } from './util.service.js'
 import { storageService } from './async-storage.service.js'
 
-
 const BUG_KEY = 'bugsDB'
 const BASE_URL = '/api/bug/'
-// const BASE_URL = 'http://localhost:3030/api/bug/'
 
 _createBugs()
 
@@ -23,7 +21,6 @@ function query(filterBy) {
     .get(BASE_URL)
     .then((res) => res.data)
     .then((bugs) => {
-
       if (filterBy.txt) {
         const regExp = new RegExp(filterBy.txt, 'i')
         bugs = bugs.filter((bug) => regExp.test(bug.title))
@@ -38,8 +35,8 @@ function query(filterBy) {
 }
 
 function getById(bugId) {
-  console.log('bugId: ',bugId)
-  
+  console.log('bugId: ', bugId)
+
   return axios
     .get(BASE_URL + bugId)
     .then((res) => res.data)
@@ -78,10 +75,6 @@ function getFilterFromSearchParams(searchParams) {
 }
 
 function _createBugs() {
-  // TODO Qustion - how can I make it work with loadFromStorage?
-  // The problem is that Node.js don't have loadFromStorage
-  // let bugs = utilServiceLocal.readJsonFile('data/bug.json')
-
   let bugs = utilServiceLocal.loadFromStorage(BUG_KEY)
 
   if (bugs && bugs.length > 0) return
@@ -111,10 +104,6 @@ function _createBugs() {
   ]
   utilServiceLocal.saveToStorage(BUG_KEY, bugs)
 }
-
-// function getDefaultFilter() {
-//   return { txt: '', minSeverity: 0 }
-// }
 
 function _setNextPrevBugId(bug) {
   return storageService.query(BUG_KEY).then((bugs) => {

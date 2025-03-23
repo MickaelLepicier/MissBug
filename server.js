@@ -5,16 +5,10 @@ import cookieParser from 'cookie-parser'
 import { bugService } from './services/bug.service.js'
 import { loggerService } from './services/logger.service.js'
 
-// TODO: the link - http://127.0.0.1:3030/#/bug
-
 const app = express()
 app.use(cors())
 app.use(express.static('public'))
 app.use(cookieParser())
-
-// app.get('/', (req, res) => res.send('Hello there'))
-
-// API for Bugs CRUDL
 
 // Read
 app.get('/api/bug', (req, res) => {
@@ -34,7 +28,10 @@ app.get('/api/bug', (req, res) => {
 
 // Create / Edit
 app.get('/api/bug/save', (req, res) => {
+  loggerService.debug('req.query', req.query)
+
   console.log('req.query: ', req.query)
+
   const bugToSave = {
     _id: req.query._id,
     title: req.query.title,
@@ -54,33 +51,20 @@ app.get('/api/bug/save', (req, res) => {
 app.get('/api/bug/:bugId', (req, res) => {
   const { bugId } = req.params
 
-  let visitedBugCount = req.cookies.visitedBugCount || 0
-  let visitedBugs = req.cookies.visitedBugs || []
+  let visitedBugCount = req.cookies.visitedBugCount || []
 
-  if (visitedBugCount >= 3) {
-    // loggerService.error('Cannot save bug')
-    return res.status(403).send('Usage limit reached! Please try again later.')
+  if (visitedBugCount.length >= 3) {
+    return res.status(403).send('Usage limit reached! Please try again in a moment.')
   }
 
-  if (visitedBugs.length >= 3) {
-    return res.status(401).send('Wait for a bit')
+  if (!visitedBugCount.includes(bugId)) {
+    visitedBugCount.unshift(bugId)
+    res.cookie('visitedBugCount', visitedBugCount, { maxAge: 7 * 1000 })
   }
 
   bugService
     .getById(bugId)
-    .then((bug) => {
-      visitedBugCount++
-      res.cookie('visitedBugCount', visitedBugCount, { maxAge: 10 * 1000 })
-
-      if (!visitedBugs.includes(bugId)) {
-        visitedBugs.unshift(bugId)
-        res.cookie('visitedBugs', visitedBugs, { maxAge: 7 * 1000 })
-      }
-
-      // console.log('visitedBugCount: ',visitedBugCount)
-      console.log('User visited at the following bugs: ', visitedBugs)
-      res.send(bug)
-    })
+    .then((bug) => res.send(bug))
     .catch((err) => {
       loggerService.error('Cannot get bug', err)
       res.status(500).send('Cannot load bug')
@@ -105,4 +89,4 @@ app.get('/api/logs', (req, res) => {
 })
 
 const port = 3030
-app.listen(port, () => console.log(`Server ready at: http://localhost:${port}`))
+app.listen(port, () => console.log(`Server ready at: http://127.0.0.1:${port}`))
