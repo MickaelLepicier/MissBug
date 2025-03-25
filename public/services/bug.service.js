@@ -17,44 +17,57 @@ export const bugService = {
 }
 
 function query(filterBy) {
-  return axios
-    .get(BASE_URL)
-    .then((res) => res.data)
-    .then((bugs) => {
-      if (filterBy.txt) {
-        const regExp = new RegExp(filterBy.txt, 'i')
-        bugs = bugs.filter((bug) => regExp.test(bug.title))
-      }
+  return axios.get(BASE_URL, { params: filterBy }).then((res) => res.data)
+  // .then((bugs) => {
+  //   if (filterBy.txt) {
+  //     const regExp = new RegExp(filterBy.txt, 'i')
+  //     bugs = bugs.filter((bug) => regExp.test(bug.title))
+  //   }
 
-      if (filterBy.minSeverity) {
-        bugs = bugs.filter((bug) => bug.severity >= filterBy.minSeverity)
-      }
+  //   if (filterBy.minSeverity) {
+  //     bugs = bugs.filter((bug) => bug.severity >= filterBy.minSeverity)
+  //   }
 
-      return bugs
-    })
+  //   return bugs
+  // })
 }
 
 function getById(bugId) {
-  console.log('bugId: ', bugId)
-
-  return axios
-    .get(BASE_URL + bugId)
-    .then((res) => res.data)
-    .then((bug) => _setNextPrevBugId(bug))
+  return axios.get(BASE_URL + bugId).then((res) => res.data)
+  // .then((bug) => _setNextPrevBugId(bug))
 }
 
 function remove(bugId) {
-  return axios.get(BASE_URL + bugId + '/remove').then((res) => res.data)
+  return axios.delete(BASE_URL + bugId).then((res) => res.data)
 }
 
 function save(bug) {
-  const url = BASE_URL + 'save'
-  let queryParams = `?title=${bug.title}&severity=${bug.severity}`
-  if (bug._id) queryParams += `&_id=${bug._id}`
-  return axios
-    .get(url + queryParams)
-    .then((res) => res.data)
-    .catch((err) => console.log('err: ', err))
+  const url = BASE_URL
+
+  if (bug._id) {
+    return axios
+      .put(url + bug._id, bug)
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log('err: ', err)
+        throw err
+      })
+  } else {
+    return axios
+      .post(url, bug)
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log('err: ', err)
+        throw err
+      })
+  }
+
+  // let queryParams = `?title=${bug.title}&severity=${bug.severity}`
+  // if (bug._id) queryParams += `&_id=${bug._id}`
+  // return axios
+  //   .get(url + queryParams)
+  //   .then((res) => res.data)
+  //   .catch((err) => console.log('err: ', err))
 }
 
 function getEmptyBug(txt = '', minSeverity = '') {
@@ -62,7 +75,7 @@ function getEmptyBug(txt = '', minSeverity = '') {
 }
 
 function getDefaultFilter() {
-  return { txt: '', minSeverity: '' }
+  return { txt: '', minSeverity: '', pageIdx: undefined }
 }
 
 function getFilterFromSearchParams(searchParams) {
@@ -81,25 +94,28 @@ function _createBugs() {
 
   bugs = [
     {
-      _id: 'BUG12345',
-      title: 'Unexpected App Crash',
-      description: 'App crashes when clicking the submit button',
-      severity: 3,
-      createdAt: 1678901234567
-    },
-    {
-      _id: 'X1Y2Z3A4',
-      title: 'Login Failure',
-      description: 'Users unable to log in with correct credentials',
-      severity: 5,
-      createdAt: 1689054321789
-    },
-    {
-      _id: '5GD67890',
-      title: 'UI Glitch on Mobile',
-      description: 'Navbar overlaps content on small screens',
+      _id: 'bug001',
+      title: 'Login page not loading',
+      description: 'The login page keeps showing a blank screen',
       severity: 2,
-      createdAt: 1690123456789
+      createdAt: 1710451200000,
+      labels: ['urgent', 'frontend', 'UI']
+    },
+    {
+      _id: 'bug002',
+      title: 'Password reset email not sent',
+      description: 'Users are not receiving password reset emails',
+      severity: 3,
+      createdAt: 1710447600000,
+      labels: ['backend', 'auth', 'email']
+    },
+    {
+      _id: 'bug003',
+      title: 'App crashes on startup',
+      description: 'The mobile app crashes immediately after launch',
+      severity: 1,
+      createdAt: 1710444000000,
+      labels: ['critical', 'mobile', 'crash']
     }
   ]
   utilServiceLocal.saveToStorage(BUG_KEY, bugs)

@@ -1,3 +1,4 @@
+import path from 'path'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
@@ -9,11 +10,13 @@ const app = express()
 app.use(cors())
 app.use(express.static('public'))
 app.use(cookieParser())
+app.use(express.json())
 
 // Read
 app.get('/api/bug', (req, res) => {
   const filterBy = {
     txt: req.query.txt || '',
+    description: req.query.description || '',
     minSeverity: +req.query.minSeverity || 0
   }
 
@@ -26,24 +29,41 @@ app.get('/api/bug', (req, res) => {
     })
 })
 
-// Create / Edit
-app.get('/api/bug/save', (req, res) => {
+// Create
+app.post('/api/bug', (req, res) => {
   loggerService.debug('req.query', req.query)
 
-  console.log('req.query: ', req.query)
+  const bugToSave = req.body
 
-  const bugToSave = {
-    _id: req.query._id,
-    title: req.query.title,
-    severity: +req.query.severity
-  }
+  // console.log('req.query: ', req.query)
+
+  // const bugToSave = {
+  //   _id: req.query._id,
+  //   title: req.query.title,
+  //   severity: +req.query.severity
+  // }
 
   bugService
     .save(bugToSave)
     .then((bug) => res.send(bug))
     .catch((err) => {
-      loggerService.error('Cannot save bug', err)
-      res.status(500).send('Cannot save bug')
+      loggerService.error('Cannot add bug', err)
+      res.status(500).send('Cannot add bug')
+    })
+})
+
+// Update
+app.put('/api/bug', (req, res) => {
+  loggerService.debug('req.query', req.query)
+
+  const bugToSave = req.body
+
+  bugService
+    .save(bugToSave)
+    .then((bug) => res.send(bug))
+    .catch((err) => {
+      loggerService.error('Cannot update bug', err)
+      res.status(500).send('Cannot update bug')
     })
 })
 
@@ -54,7 +74,9 @@ app.get('/api/bug/:bugId', (req, res) => {
   let visitedBugCount = req.cookies.visitedBugCount || []
 
   if (visitedBugCount.length >= 3) {
-    return res.status(403).send('Usage limit reached! Please try again in a moment.')
+    return res
+      .status(403)
+      .send('Usage limit reached! Please try again in a moment.')
   }
 
   if (!visitedBugCount.includes(bugId)) {
@@ -72,7 +94,7 @@ app.get('/api/bug/:bugId', (req, res) => {
 })
 
 // Remove / Delete
-app.get('/api/bug/:bugId/remove', (req, res) => {
+app.delete('/api/bug/:bugId', (req, res) => {
   const { bugId } = req.params
 
   bugService
@@ -84,8 +106,13 @@ app.get('/api/bug/:bugId/remove', (req, res) => {
     })
 })
 
+// log - backend
 app.get('/api/logs', (req, res) => {
   res.sendFile(process.cwd() + '/logs/backend.log')
+})
+
+app.get('/**', (req, res) => {
+  res.sendFile(path.resolve('public/index.html'))
 })
 
 const port = 3030

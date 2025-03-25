@@ -1,5 +1,6 @@
 import { utilService } from "./util.service.js"
 import fs from 'fs'
+const PAGE_SIZE = 5
 
 const bugs = utilService.readJsonFile('data/bug.json')
 
@@ -20,6 +21,11 @@ function query(filterBy = {}) {
 
     if(filterBy.minSeverity){
         filteredBugs = filteredBugs.filter(bug => bug.severity >= filterBy.minSeverity)
+    }
+
+    if (filterBy.pageIdx !== undefined && filterBy.pageIdx !== null && filterBy.pageIdx !== '') {
+        const startIdx = filterBy.pageIdx * PAGE_SIZE
+        filteredBugs = filteredBugs.slice(startIdx, startIdx + PAGE_SIZE)
     }
 
     return Promise.resolve(filteredBugs)

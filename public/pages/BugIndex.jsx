@@ -43,6 +43,7 @@ export function BugIndex() {
     }
 
     function onEditBug(bug) {
+        // TODO check if there are bugs here
         const severity = +prompt('New severity?', bug.severity)
         const bugToSave = { ...bug, severity }
 
@@ -61,6 +62,10 @@ export function BugIndex() {
         setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
     }
 
+    function onSetPage(diff){
+        setFilterBy(prevFilter=> ({...prevFilter, pageIdx: prevFilter.pageIdx + diff}))
+    }
+
     return <section className="bug-index main-content">
         
         <BugFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
@@ -73,5 +78,19 @@ export function BugIndex() {
             bugs={bugs} 
             onRemoveBug={onRemoveBug} 
             onEditBug={onEditBug} />
+
+
+            <label >
+                Use Paging
+                <input type="checkbox" onChange={(ev)=>{
+                    setFilterBy(prevFilter=> ({...prevFilter, pageIdx: ev.target.checked ? 0 : undefined}))
+                }} />
+            </label>
+
+            <div hidden={filterBy.pageIdx === undefined}>
+                <button disabled={filterBy.pageIdx === 0} onClick={()=> {onSetPage(-1)}}>Prev Page</button>
+                <span>Page: {filterBy.pageIdx + 1}</span>
+                <button onClick={()=> {onSetPage(1)}}>Next Page</button>
+            </div>
     </section>
 }

@@ -11,24 +11,28 @@ export function BugDetails() {
 
 
     useEffect(() => {
-        bugService.getById(bugId)
-            .then(bug => setBug(bug))
-            .catch(err => showErrorMsg(`Cannot load bug`, err))
-    }, [])
+       loadBug()
+    }, [bugId])
 
-    return <div className="bug-details">
-        <h3>Bug Details</h3>
-        {!bug && <p className="loading">Loading....</p>}
-        {
-            bug && 
+    function loadBug(){
+        bugService.getById(bugId)
+        .then(bug => setBug(bug))
+        .catch(err => showErrorMsg(`Cannot load bug`, err))
+    }
+
+    if (!bug) return <div>Loading...</div>
+
+    return <section className="bug-details">
+        {/* <h3>Bug Details</h3> */}
+ 
             <div>
                 <h4>{bug.title}</h4>
                 <h5>Severity: <span>{bug.severity}</span></h5>
                 <p>{bug.description || 'There is no description'}</p>
             </div>
-        }
+        
         <hr />
         <Link to="/bug">Back to List</Link>
-    </div>
+    </section>
 
 }
