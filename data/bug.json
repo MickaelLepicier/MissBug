@@ -1,5 +1,10 @@
 [
     {
+        "title": "BUGBHUGBUG",
+        "severity": 1,
+        "_id": "Ihi21"
+    },
+    {
         "_id": "bug001",
         "title": "Login page not loading",
         "description": "The login page keeps showing a blank screen",
@@ -9,18 +14,6 @@
             "urgent",
             "frontend",
             "UI"
-        ]
-    },
-    {
-        "_id": "bug002",
-        "title": "Password reset email not sent",
-        "description": "Users are not receiving password reset emails",
-        "severity": 3,
-        "createdAt": 1710447600000,
-        "labels": [
-            "backend",
-            "auth",
-            "email"
         ]
     },
     {
@@ -39,7 +32,7 @@
         "_id": "bug004",
         "title": "Data not saving",
         "description": "Changes made to user profile are not saved",
-        "severity": 3,
+        "severity": 4,
         "createdAt": 1710440400000,
         "labels": [
             "database",
