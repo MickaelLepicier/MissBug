@@ -20,7 +20,7 @@
         "_id": "bug003",
         "title": "App crashes on startup",
         "description": "The mobile app crashes immediately after launch",
-        "severity": 1,
+        "severity": 3,
         "createdAt": 1710444000000,
         "labels": [
             "critical",

@@ -25,16 +25,17 @@ export function BugFilter({ filterBy, onSetFilterBy }) {
             default:
                 break
         }
-
+        
         setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
     }
 
     function onSubmitFilter(ev) {
         ev.preventDefault()
+        console.log('filterByToEdit: ',filterByToEdit)
         onSetFilterBy(filterByToEdit)
     }
 
-    const { txt, minSeverity } = filterByToEdit
+    const { txt, minSeverity, sortBy, sortDir } = filterByToEdit
     return (
         <section className="bug-filter">
             <h2>Filter</h2>
@@ -44,7 +45,20 @@ export function BugFilter({ filterBy, onSetFilterBy }) {
 
                 <label htmlFor="minSeverity">Min Severity: </label>
                 <input value={minSeverity} onChange={handleChange} type="number" placeholder="By Min Severity" id="minSeverity" name="minSeverity" />
+
             </form>
+                {/* <h2>Sort By</h2> */}
+                <select id="sortBy" name="sortBy" value={sortBy} onChange={handleChange} >
+                    <option value="" >Sort By</option>
+                    <option value="title" >Title</option>
+                    <option value="severity" >Severity</option>
+                    <option value="createdAt" >Created</option>
+                </select>
+                <label htmlFor="">Sort Dir:</label>
+                <input type="checkbox" name="sortDir" value={sortDir} onChange={handleChange} />
+
+            {/* TODO ADD SORT DIR with select or checkbox */}
+                
         </section>
     )
 }
