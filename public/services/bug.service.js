@@ -12,6 +12,7 @@ export const bugService = {
   save,
   remove,
   getEmptyBug,
+  getLabels,
   getFilterFromSearchParams
 }
 
@@ -30,10 +31,10 @@ function remove(bugId) {
 }
 
 function save(bug) {
-  const url = BASE_URL
   const method = bug._id ? 'put' : 'post'
+  const bugId = bug._id || ''
 
-  return axios[method](url, bug)
+  return axios[method](BASE_URL + bugId, bug)
     .then((res) => res.data)
     .catch((err) => {
       console.log('err: ', err)
@@ -105,4 +106,10 @@ function _setNextPrevBugId(bug) {
     bug.prevCarId = prevBug._id
     return bug
   })
+}
+
+function getLabels() {
+  return [
+      'back', 'front', 'critical', 'fixed', 'in progress', 'stuck'
+  ]
 }

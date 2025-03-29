@@ -9,12 +9,7 @@ import { BugSort } from '../cmps/BugSort.jsx'
 
 export function BugIndex() {
   const [bugs, setBugs] = useState(null)
-  const [filterBy, setFilterBy] = useState({
-    txt: '',
-    minSeverity: '',
-    sortBy: '',
-    pageIdx: undefined
-  })
+  const [filterBy, setFilterBy] = useState({ txt: '', minSeverity: 0, labels: [], sortField: '', sortDir: 1 })
 
   useEffect(loadBugs, [filterBy])
 
@@ -26,6 +21,8 @@ export function BugIndex() {
       .catch((err) => showErrorMsg(`Couldn't load bugs - ${err}`))
   }
 
+  // TODO keep going
+  
   function onRemoveBug(bugId) {
     bugService
       .remove(bugId)
@@ -38,7 +35,7 @@ export function BugIndex() {
   }
 
   function onAddBug() {
-  // TODO make prompt for the labels
+    // TODO make prompt for the labels
     const bug = {
       title: prompt('Bug title?', 'Bug ' + Date.now()),
       description: prompt('Bug description'),
@@ -63,9 +60,7 @@ export function BugIndex() {
     bugService
       .save(bugToSave)
       .then((savedBug) => {
-        const bugsToUpdate = bugs.map((currBug) =>
-          currBug._id === savedBug._id ? savedBug : currBug
-        )
+        const bugsToUpdate = bugs.map((currBug) => (currBug._id === savedBug._id ? savedBug : currBug))
 
         setBugs(bugsToUpdate)
         showSuccessMsg('Bug updated')

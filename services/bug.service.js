@@ -1,8 +1,5 @@
 import { utilService } from './util.service.js'
 import fs from 'fs'
-const PAGE_SIZE = 5
-
-const bugs = utilService.readJsonFile('data/bug.json')
 
 export const bugService = {
   query,
@@ -11,50 +8,64 @@ export const bugService = {
   save
 }
 
-function query(filterBy = {}) {
-  let filteredBugs = bugs
+const bugs = utilService.readJsonFile('data/bug.json')
 
+function query(queryOptions) {
+  const { filterBy, sortBy, pagination } = queryOptions
+  let bugsToReturn = [...bugs]
 
   if (filterBy.txt) {
-    const txt = filterBy.txt.toLowerCase()
-    filteredBugs = filteredBugs.filter((bug) =>
-      bug.title.toLowerCase().includes(txt)
-    )
+    const regExp = new RegExp(filterBy.txt, 'i')
+    bugsToReturn = bugsToReturn.filter((bug) => regExp.test(bug.title))
   }
 
   if (filterBy.minSeverity) {
-    filteredBugs = filteredBugs.filter(
-      (bug) => bug.severity >= filterBy.minSeverity
-    )
+    bugsToReturn = bugsToReturn.filter((bug) => bug.severity >= filterBy.minSeverity)
   }
 
-  if (
-    filterBy.pageIdx !== undefined &&
-    filterBy.pageIdx !== null &&
-    filterBy.pageIdx !== ''
-  ) {
-    const startIdx = filterBy.pageIdx * PAGE_SIZE
-    filteredBugs = filteredBugs.slice(startIdx, startIdx + PAGE_SIZE)
-  }
-
-  const isDescending = filterBy.sortDir === true || filterBy.sortDir === 'true'
-
-  if (filterBy.sortBy === 'title') {
-    filteredBugs = filteredBugs.sort((a, b) => {
-      return isDescending
-        ? b.title.localeCompare(a.title)
-        : a.title.localeCompare(b.title)
+  if (filterBy.labels && filterBy.labels.length > 0) {
+    bugsToReturn = bugsToReturn.filter((bug) => {
+      filterBy.labels.some((label) => bug?.labels?.includes(label))
     })
   }
 
-  if (filterBy.sortBy === 'severity' || filterBy.sortBy === 'createdAt') {
-    const type = filterBy.sortBy
-    filteredBugs = filteredBugs.sort((a, b) => {
-      return isDescending ? b[type] - a[type] : a[type] - b[type]
+  if (sortBy.sortField === 'severity' || sortBy.sortField === 'createdAt') {
+    const { sortField } = sortBy
+
+    bugsToReturn.sort((bug1, bug2) => {
+      return (bug1[sortField] - bug2[sortField]) * sortBy.sortDir
+    })
+  } else if (sortBy.sortField === 'title') {
+    bugsToReturn.sort((bug1, bug2) => {
+      return bug1.title.localeCompare(bug2.title) * sortBy.sortDir
     })
   }
 
-  return Promise.resolve(filteredBugs)
+  //   const isDescending = filterBy.sortDir === true || filterBy.sortDir === 'true'
+
+  //   if (filterBy.sortBy === 'title') {
+  //     bugsToReturn = bugsToReturn.sort((a, b) => {
+  //       return isDescending
+  //         ? b.title.localeCompare(a.title)
+  //         : a.title.localeCompare(b.title)
+  //     })
+  //   }
+
+  //   if (filterBy.sortBy === 'severity' || filterBy.sortBy === 'createdAt') {
+  //     const type = filterBy.sortBy
+  //     bugsToReturn = bugsToReturn.sort((a, b) => {
+  //       return isDescending ? b[type] - a[type] : a[type] - b[type]
+  //     })
+  //   }
+
+  if (filterBy.pageIdx !== undefined) {
+    const { pageIdx, pageSize } = pagination
+
+    const startIdx = pageIdx * pageSize
+    bugsToReturn = bugsToReturn.slice(startIdx, startIdx + pageSize)
+  }
+
+  return Promise.resolve(bugsToReturn)
 }
 
 function getById(bugId) {
@@ -70,16 +81,17 @@ function remove(bugId) {
   return _saveBugsToFile()
 }
 
-function save(bugToSave) {
-  if (bugToSave._id) {
-    const bugIdx = bugs.findIndex((bug) => bug._id === bugToSave._id)
-    bugs[bugIdx] = { ...bugs[bugIdx], ...bugToSave }
+function save(bug) {
+  if (bug._id) {
+    const idx = bugs.findIndex((b) => b._id === bug._id)
+    bugs[idx] = { ...bugs[idx], ...bug }
   } else {
-    bugToSave._id = utilService.makeId()
-    bugs.unshift(bugToSave)
+    bug._id = utilService.makeId()
+    bug.createdAt = Date.now()
+    bugs.unshift(bug)
   }
 
-  return _saveBugsToFile().then(() => bugToSave)
+  return _saveBugsToFile().then(() => bug)
 }
 
 function _saveBugsToFile() {
@@ -87,8 +99,10 @@ function _saveBugsToFile() {
     const data = JSON.stringify(bugs, null, 4)
     fs.writeFile('data/bug.json', data, (err) => {
       if (err) {
+        loggerService.error('Cannot write to bugs file', err)
         return reject(err)
       }
+      console.log('The file was saved!')
       resolve()
     })
   })
