@@ -21,8 +21,7 @@ export const bugService = {
 // explain how the code is working and check If you are right
 
 function query(queryOptions) {
-  console.log('queryOptions: ',queryOptions)
-  // debugger
+  
   return axios.get(BASE_URL, { params: queryOptions }).then((res) => res.data)
 }
 

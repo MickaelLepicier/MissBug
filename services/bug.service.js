@@ -15,7 +15,7 @@ function query(queryOptions) {
   let bugsToReturn = [...bugs]
 
 
-  console.log('queryqueryOptions: ',queryOptions)
+  // console.log('queryqueryOptions: ',queryOptions)
 
   if (filterBy.txt) {
     const regExp = new RegExp(filterBy.txt, 'i')
@@ -25,10 +25,10 @@ function query(queryOptions) {
   if (filterBy.minSeverity) {
     bugsToReturn = bugsToReturn.filter((bug) => bug.severity >= filterBy.minSeverity)
   }
-
   if (filterBy.labels && filterBy.labels.length > 0) {
+
     bugsToReturn = bugsToReturn.filter((bug) => {
-      filterBy.labels.some((label) => bug?.labels?.includes(label))
+     return filterBy.labels.some((label) => bug?.labels?.includes(label))
     })
   }
 

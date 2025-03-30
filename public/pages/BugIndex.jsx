@@ -48,7 +48,7 @@ export function BugIndex() {
       labels: getRandomLabels()
     }
 
-    console.log(' onAddBug - bug.labels: ', bug.labels)
+    // console.log(' onAddBug - bug.labels: ', bug.labels)
 
     bugService
       .save(bug)
