@@ -99,8 +99,6 @@ app.post('/api/bug', (req, res) => {
 app.put('/api/bug/:bugId', (req, res) => {
   loggerService.debug('req.query', req.query)
 
-  // FIX BUG FOR UPDATE~!~!~!~!~!!!!~!~!~!!!~!
-
   const { title, description, severity, labels, _id } = req.body
 
   if (!_id || !title || severity === undefined) res.status(400).send('Missing required field')

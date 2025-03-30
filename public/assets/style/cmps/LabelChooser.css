@@ -1,0 +1,8 @@
+.label-chooser {
+    display: flex;
+    gap: .2em;
+
+    border: none;
+    padding: 0;
+}
+

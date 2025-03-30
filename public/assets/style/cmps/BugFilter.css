@@ -11,3 +11,11 @@
     margin-inline-start: 1em;
 }
 
+.sort-by {
+    display: flex;
+    gap: 3em;
+}
+
+.sort-field, .sort-dir {
+    margin-block: .6em;
+}

@@ -16,18 +16,22 @@ export const bugService = {
   getFilterFromSearchParams
 }
 
-function query(filterBy) {
-  // console.log('query PUBLIC filterBy: ',filterBy)
-  return axios.get(BASE_URL, { params: filterBy }).then((res) => res.data)
+// TODOs:
+// why is the filter with the labels don't work? it brings back []
+// explain how the code is working and check If you are right
+
+function query(queryOptions) {
+  console.log('queryOptions: ',queryOptions)
+  // debugger
+  return axios.get(BASE_URL, { params: queryOptions }).then((res) => res.data)
 }
 
 function getById(bugId) {
   return axios.get(BASE_URL + bugId).then((res) => res.data)
-  // .then((bug) => _setNextPrevBugId(bug))
 }
 
 function remove(bugId) {
-  return axios.delete(BASE_URL + bugId).then((res) => res.data)
+  return axios.delete(BASE_URL + bugId)
 }
 
 function save(bug) {
@@ -50,7 +54,6 @@ function save(bug) {
 }
 
 function getEmptyBug(txt = '', minSeverity = '') {
-  // TODO add more data
   return { txt, minSeverity }
 }
 
@@ -75,23 +78,23 @@ function _createBugs() {
       description: 'The login page keeps showing a blank screen',
       severity: 2,
       createdAt: 1710451200000,
-      labels: ['urgent', 'frontend', 'UI']
-    },
-    {
-      _id: 'bug002',
-      title: 'Password reset email not sent',
-      description: 'Users are not receiving password reset emails',
-      severity: 3,
-      createdAt: 1710447600000,
-      labels: ['backend', 'auth', 'email']
+      labels: ['urgent', 'frontend']
     },
     {
       _id: 'bug003',
       title: 'App crashes on startup',
       description: 'The mobile app crashes immediately after launch',
-      severity: 1,
+      severity: 3,
       createdAt: 1710444000000,
-      labels: ['critical', 'mobile', 'crash']
+      labels: ['critical', 'backend', 'fixed']
+    },
+    {
+      _id: 'bug004',
+      title: 'Data not saving',
+      description: 'Changes made to user profile are not saved',
+      severity: 4,
+      createdAt: 1710440400000,
+      labels: ['critical', 'in progress']
     }
   ]
   utilServiceLocal.saveToStorage(BUG_KEY, bugs)
@@ -109,7 +112,5 @@ function _setNextPrevBugId(bug) {
 }
 
 function getLabels() {
-  return [
-      'back', 'front', 'critical', 'fixed', 'in progress', 'stuck'
-  ]
+  return ['backend', 'frontend', 'critical', 'fixed', 'in progress', 'stuck']
 }

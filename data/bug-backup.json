@@ -1,82 +1,93 @@
 [
   {
-    "_id": "bug001",
-    "title": "Login page not loading",
-    "description": "The login page keeps showing a blank screen",
-    "severity": 2,
-    "createdAt": 1710451200000,
-    "labels": ["urgent", "frontend", "UI"]
+      "_id": "bug001",
+      "title": "Login page not loading",
+      "description": "The login page keeps showing a blank screen",
+      "severity": 2,
+      "createdAt": 1710451200000,
+      "labels": [
+          "urgent",
+          "frontend"
+      ]
   },
   {
-    "_id": "bug002",
-    "title": "Password reset email not sent",
-    "description": "Users are not receiving password reset emails",
-    "severity": 3,
-    "createdAt": 1710447600000,
-    "labels": ["backend", "auth", "email"]
+      "_id": "bug003",
+      "title": "App crashes on startup",
+      "description": "The mobile app crashes immediately after launch",
+      "severity": 3,
+      "createdAt": 1710444000000,
+      "labels": [
+          "critical",
+          "backend",
+          "fixed"
+      ]
   },
   {
-    "_id": "bug003",
-    "title": "App crashes on startup",
-    "description": "The mobile app crashes immediately after launch",
-    "severity": 1,
-    "createdAt": 1710444000000,
-    "labels": ["critical", "mobile", "crash"]
+      "_id": "bug004",
+      "title": "Data not saving",
+      "description": "Changes made to user profile are not saved",
+      "severity": 4,
+      "createdAt": 1710440400000,
+      "labels": [
+          "critical",
+          "in progress"
+      ]
   },
   {
-    "_id": "bug004",
-    "title": "Data not saving",
-    "description": "Changes made to user profile are not saved",
-    "severity": 3,
-    "createdAt": 1710440400000,
-    "labels": ["database", "bug", "high-priority"]
+      "_id": "bug005",
+      "title": "Slow loading time on dashboard",
+      "description": "Dashboard takes over 10 seconds to load",
+      "severity": 2,
+      "createdAt": 1710436800000,
+      "labels": [
+          "critical",
+          "frontend",
+          "optimization"
+      ]
   },
   {
-    "_id": "bug005",
-    "title": "Slow loading time on dashboard",
-    "description": "Dashboard takes over 10 seconds to load",
-    "severity": 2,
-    "createdAt": 1710436800000,
-    "labels": ["performance", "frontend", "optimization"]
+      "_id": "bug006",
+      "title": "Images not displaying in gallery",
+      "description": "Uploaded images appear as broken links",
+      "severity": 3,
+      "createdAt": 1710433200000,
+      "labels": [
+          "frontend",
+          "stuck"
+      ]
   },
   {
-    "_id": "bug006",
-    "title": "Images not displaying in gallery",
-    "description": "Uploaded images appear as broken links",
-    "severity": 3,
-    "createdAt": 1710433200000,
-    "labels": ["frontend", "media", "bug"]
+      "_id": "bug007",
+      "title": "User roles not updating",
+      "description": "Admin panel changes do not reflect immediately",
+      "severity": 2,
+      "createdAt": 1710429600000,
+      "labels": [
+          "backend",
+          "permissions",
+          "fixed"
+      ]
   },
   {
-    "_id": "bug007",
-    "title": "User roles not updating",
-    "description": "Admin panel changes do not reflect immediately",
-    "severity": 2,
-    "createdAt": 1710429600000,
-    "labels": ["backend", "permissions", "admin"]
+      "_id": "bug008",
+      "title": "Session timeout too short",
+      "description": "Users are logged out after only 5 minutes of inactivity",
+      "severity": 3,
+      "createdAt": 1710426000000,
+      "labels": [
+          "in progress"
+      ]
   },
   {
-    "_id": "bug008",
-    "title": "Session timeout too short",
-    "description": "Users are logged out after only 5 minutes of inactivity",
-    "severity": 3,
-    "createdAt": 1710426000000,
-    "labels": ["auth", "security", "timeout"]
-  },
-  {
-    "_id": "bug009",
-    "title": "Search function returns incorrect results",
-    "description": "Search returns unrelated items",
-    "severity": 2,
-    "createdAt": 1710422400000,
-    "labels": ["frontend", "search", "query"]
-  },
-  {
-    "_id": "bug010",
-    "title": "Dark mode not working",
-    "description": "Theme setting does not persist across sessions",
-    "severity": 1,
-    "createdAt": 1710418800000,
-    "labels": ["UI", "theme", "low-priority"]
+      "_id": "bug009",
+      "title": "Search function returns incorrect results",
+      "description": "Search returns unrelated items",
+      "severity": 2,
+      "createdAt": 1710422400000,
+      "labels": [
+          "backend",
+          "search",
+          "fixed"
+      ]
   }
 ]

@@ -14,6 +14,9 @@ function query(queryOptions) {
   const { filterBy, sortBy, pagination } = queryOptions
   let bugsToReturn = [...bugs]
 
+
+  console.log('queryqueryOptions: ',queryOptions)
+
   if (filterBy.txt) {
     const regExp = new RegExp(filterBy.txt, 'i')
     bugsToReturn = bugsToReturn.filter((bug) => regExp.test(bug.title))
@@ -41,22 +44,6 @@ function query(queryOptions) {
     })
   }
 
-  //   const isDescending = filterBy.sortDir === true || filterBy.sortDir === 'true'
-
-  //   if (filterBy.sortBy === 'title') {
-  //     bugsToReturn = bugsToReturn.sort((a, b) => {
-  //       return isDescending
-  //         ? b.title.localeCompare(a.title)
-  //         : a.title.localeCompare(b.title)
-  //     })
-  //   }
-
-  //   if (filterBy.sortBy === 'severity' || filterBy.sortBy === 'createdAt') {
-  //     const type = filterBy.sortBy
-  //     bugsToReturn = bugsToReturn.sort((a, b) => {
-  //       return isDescending ? b[type] - a[type] : a[type] - b[type]
-  //     })
-  //   }
 
   if (filterBy.pageIdx !== undefined) {
     const { pageIdx, pageSize } = pagination

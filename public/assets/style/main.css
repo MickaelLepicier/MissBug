@@ -14,4 +14,6 @@
 
 @import './cmps/BugList.css';
 @import './cmps/BugFilter.css';
+@import './cmps/LabelChooser.css';
+@import './cmps/tag.css';
 @import './cmps/BugPreview.css';

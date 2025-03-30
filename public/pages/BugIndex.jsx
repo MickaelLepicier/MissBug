@@ -5,24 +5,29 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 
 import { BugFilter } from '../cmps/BugFilter.jsx'
 import { BugList } from '../cmps/BugList.jsx'
-import { BugSort } from '../cmps/BugSort.jsx'
+import { utilServiceLocal } from '../services/util.service.js'
 
 export function BugIndex() {
   const [bugs, setBugs] = useState(null)
-  const [filterBy, setFilterBy] = useState({ txt: '', minSeverity: 0, labels: [], sortField: '', sortDir: 1 })
+  
+  const [filterBy, setFilterBy] = useState({
+    txt: '',
+    minSeverity: 0,
+    labels: [],
+    sortField: '',
+    sortDir: 1
+  })
 
   useEffect(loadBugs, [filterBy])
 
   function loadBugs() {
-    // console.log(' loadBugs filterBy: ',filterBy)
     bugService
       .query(filterBy)
       .then(setBugs)
       .catch((err) => showErrorMsg(`Couldn't load bugs - ${err}`))
   }
 
-  // TODO keep going
-  
+
   function onRemoveBug(bugId) {
     bugService
       .remove(bugId)
@@ -35,14 +40,15 @@ export function BugIndex() {
   }
 
   function onAddBug() {
-    // TODO make prompt for the labels
     const bug = {
       title: prompt('Bug title?', 'Bug ' + Date.now()),
       description: prompt('Bug description'),
       severity: +prompt('Bug severity?', 3),
       createdAt: Date.now(),
-      labels: ['urgent', 'frontend', 'UI']
+      labels: getRandomLabels()
     }
+
+    console.log(' onAddBug - bug.labels: ', bug.labels)
 
     bugService
       .save(bug)
@@ -53,6 +59,14 @@ export function BugIndex() {
       .catch((err) => showErrorMsg(`Cannot add bug`, err))
   }
 
+  function getRandomLabels() {
+    const labels = bugService.getLabels()
+    const randomLabelsLength = utilServiceLocal.getRandomIntInclusive(0, 3)
+
+    let shuffledLabels = labels.slice().sort(() => Math.random() - 0.5)
+    return shuffledLabels.slice(0, randomLabelsLength)
+  }
+
   function onEditBug(bug) {
     const severity = +prompt('New severity?', bug.severity)
     const bugToSave = { ...bug, severity }
@@ -60,7 +74,9 @@ export function BugIndex() {
     bugService
       .save(bugToSave)
       .then((savedBug) => {
-        const bugsToUpdate = bugs.map((currBug) => (currBug._id === savedBug._id ? savedBug : currBug))
+        const bugsToUpdate = bugs.map((currBug) =>
+          currBug._id === savedBug._id ? savedBug : currBug
+        )
 
         setBugs(bugsToUpdate)
         showSuccessMsg('Bug updated')
@@ -82,7 +98,6 @@ export function BugIndex() {
   return (
     <section className="bug-index main-content">
       <BugFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
-      <BugSort bugs={bugs} setBugs={setBugs} />
 
       <header>
         <h3>Bug List</h3>
@@ -122,6 +137,7 @@ export function BugIndex() {
           Next Page
         </button>
       </div>
+      
     </section>
   )
 }
