@@ -16,12 +16,10 @@ export const bugService = {
   getFilterFromSearchParams
 }
 
-// TODOs:
-// why is the filter with the labels don't work? it brings back []
-// explain how the code is working and check If you are right
+
+
 
 function query(queryOptions) {
-  
   return axios.get(BASE_URL, { params: queryOptions }).then((res) => res.data)
 }
 
