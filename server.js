@@ -8,6 +8,10 @@ import { loggerService } from './services/logger.service.js'
 import { authService } from './services/auth.service.js'
 import { userService } from './services/user.service.js'
 
+//TODOs:
+// look at the what you have done again
+// Test your API from POSTMAN
+
 // import userService
 
 const app = express()
