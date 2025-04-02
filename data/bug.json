@@ -8,19 +8,42 @@
         "labels": [
             "urgent",
             "frontend"
-        ]
+        ],
+        "creator": {
+          "_id": "u101",
+          "fullname": "Puki Ja"
+        }
     },
+    {
+      "_id": "bug002",
+      "title": "App crashes...",
+      "description": "The mobile app crashes when the Add button is clicked",
+      "severity": 1,
+      "createdAt": 1710444000000,
+      "labels": [
+          "frontend",
+          "fixed"
+      ],
+      "creator": {
+        "_id": "u102",
+        "fullname": "Momo Na"
+      }
+  },
     {
         "_id": "bug003",
         "title": "App crashes on startup",
         "description": "The mobile app crashes immediately after launch",
-        "severity": 2,
+        "severity": 3,
         "createdAt": 1710444000000,
         "labels": [
             "critical",
             "backend",
             "fixed"
-        ]
+        ],
+        "creator": {
+          "_id": "u103",
+          "fullname": "Muki Mo"
+        }
     },
     {
         "_id": "bug004",
@@ -31,7 +54,11 @@
         "labels": [
             "critical",
             "in progress"
-        ]
+        ],
+        "creator": {
+        "_id": "u104",
+        "fullname": "Suki Sa"
+      }
     },
     {
         "_id": "bug005",
@@ -43,7 +70,11 @@
             "critical",
             "frontend",
             "optimization"
-        ]
+        ],
+        "creator": {
+        "_id": "u105",
+        "fullname": "Duki Da"
+      }
     },
     {
         "_id": "bug006",
@@ -54,7 +85,11 @@
         "labels": [
             "frontend",
             "stuck"
-        ]
+        ],
+        "creator": {
+        "_id": "u106",
+        "fullname": "Luki Lu"
+      }
     },
     {
         "_id": "bug007",
@@ -66,7 +101,11 @@
             "backend",
             "permissions",
             "fixed"
-        ]
+        ],
+        "creator": {
+        "_id": "u107",
+        "fullname": "Tuki Ta"
+      }
     },
     {
         "_id": "bug008",
@@ -76,7 +115,11 @@
         "createdAt": 1710426000000,
         "labels": [
             "in progress"
-        ]
+        ],
+        "creator": {
+        "_id": "u108",
+        "fullname": "Buki Bo"
+      }
     },
     {
         "_id": "bug009",
@@ -88,6 +131,10 @@
             "backend",
             "search",
             "fixed"
-        ]
+        ],
+        "creator": {
+        "_id": "u109",
+        "fullname": "Guki Gu"
+      }
     }
-]
+  ]

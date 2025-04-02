@@ -1,0 +1,67 @@
+[
+    {
+      "_id": "u101",
+      "username": "puki",
+      "fullname": "Puki Ja",
+      "password": "secret1",
+      "score": 100,
+      "isAdmin": true
+    },
+    {
+      "_id": "u102",
+      "username": "momo",
+      "fullname": "Momo Na",
+      "password": "secret2",
+      "score": 100
+    },
+    {
+      "_id": "u103",
+      "username": "muki",
+      "fullname": "Muki Mo",
+      "password": "secret3",
+      "score": 90
+    },
+    {
+      "_id": "u104",
+      "username": "suki",
+      "fullname": "Suki Sa",
+      "password": "secret4",
+      "score": 95
+    },
+    {
+      "_id": "u105",
+      "username": "duki",
+      "fullname": "Duki Da",
+      "password": "secret5",
+      "score": 85
+    },
+    {
+      "_id": "u106",
+      "username": "luki",
+      "fullname": "Luki Lu",
+      "password": "secret6",
+      "score": 88
+    },
+    {
+      "_id": "u107",
+      "username": "tuki",
+      "fullname": "Tuki Ta",
+      "password": "secret7",
+      "score": 92
+    },
+    {
+      "_id": "u108",
+      "username": "buki",
+      "fullname": "Buki Bo",
+      "password": "secret8",
+      "score": 80
+    },
+    {
+      "_id": "u109",
+      "username": "guki",
+      "fullname": "Guki Gu",
+      "password": "secret9",
+      "score": 87,
+      "isAdmin": true
+    }
+  ]
