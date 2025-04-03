@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 
 import { bugService } from './services/bug.service.js'
 import { loggerService } from './services/logger.service.js'
+
 import { authService } from './services/auth.service.js'
 import { userService } from './services/user.service.js'
 
@@ -12,7 +13,6 @@ import { userService } from './services/user.service.js'
 // look at the what you have done again
 // Test your API from POSTMAN
 
-// import userService
 
 const app = express()
 
