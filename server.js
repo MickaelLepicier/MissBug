@@ -13,7 +13,6 @@ import { userService } from './services/user.service.js'
 // look at the what you have done again
 // Test your API from POSTMAN
 
-
 const app = express()
 
 // App Configuration
@@ -71,10 +70,7 @@ function parseQueryParams(queryParams) {
   }
 
   const pagination = {
-    pageIdx:
-      queryParams.pageIdx !== undefined
-        ? +queryParams.pageIdx || 0
-        : queryParams.pageIdx,
+    pageIdx: queryParams.pageIdx !== undefined ? +queryParams.pageIdx || 0 : queryParams.pageIdx,
     pageSize: +queryParams.pageSize || 3
   }
 
@@ -88,9 +84,7 @@ app.get('/api/bug/:bugId', (req, res) => {
   const { visitedBugCount = [] } = req.cookies
 
   if (visitedBugCount.length >= 3) {
-    return res
-      .status(403)
-      .send('Usage limit reached! Please try again in a moment.')
+    return res.status(403).send('Usage limit reached! Please try again in a moment.')
   }
 
   if (!visitedBugCount.includes(bugId)) {
@@ -115,8 +109,7 @@ app.post('/api/bug', (req, res) => {
   loggerService.debug('req.query', req.query)
 
   const { title, description, severity, labels } = req.body
-  if (!title || severity === undefined)
-    return res.status(400).send('Missing required fields')
+  if (!title || severity === undefined) return res.status(400).send('Missing required fields')
 
   const bug = {
     title,
@@ -143,8 +136,7 @@ app.put('/api/bug/:bugId', (req, res) => {
 
   const { title, description, severity, labels, _id } = req.body
 
-  if (!_id || !title || severity === undefined)
-    res.status(400).send('Missing required field')
+  if (!_id || !title || severity === undefined) res.status(400).send('Missing required field')
 
   const bugToSave = {
     _id,
@@ -206,15 +198,6 @@ app.get('/api/user/:userId', (req, res) => {
 })
 
 // Auth API
-app.post('/api/auth/login', (req, res) => {
-  const credentials = req.body
-
-  authService.checkLogin(credentials).then((user) => {
-    const loginToken = authService.getLoginToken(user)
-    res.cookie('loginToken', loginToken)
-    res.send(user)
-  })
-})
 
 app.post('/api/auth/signup', (req, res) => {
   const credentials = req.body
@@ -233,6 +216,16 @@ app.post('/api/auth/signup', (req, res) => {
     .catch(() => res.status(400).send('Username taken.'))
 })
 
+app.post('/api/auth/login', (req, res) => {
+  const credentials = req.body
+
+  authService.checkLogin(credentials).then((user) => {
+    const loginToken = authService.getLoginToken(user)
+    res.cookie('loginToken', loginToken)
+    res.send(user)
+  })
+})
+
 app.post('/api/auth/logout', (req, res) => {
   res.clearCookie('loginToken')
   res.send('logged-out!')
@@ -248,5 +241,5 @@ app.get('/**', (req, res) => {
   res.sendFile(path.resolve('public/index.html'))
 })
 
-const port = 3030
-app.listen(port, () => console.log(`Server ready at: http://127.0.0.1:${port}`))
+const PORT = process.env.PORT || 3030
+app.listen(PORT, () => console.log(`Server ready at: http://127.0.0.1:${PORT}`))

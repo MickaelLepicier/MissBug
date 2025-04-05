@@ -1,10 +1,10 @@
 import fs from 'fs'
-import { utilService } from './util.service'
+import { utilService } from './util.service.js'
 import { resolve } from 'path'
 
 // maybe I need to put the users on let instead of const
 const users = utilService.readJsonFile('data/user.json')
-console.log('users: ', users)
+// console.log('users: ', users)
 
 export const userService = {
   query,
@@ -23,7 +23,7 @@ function query() {
 }
 
 function getById(userId) {
-  let user = user.find((user) => user._id === userId)
+  let user = users.find((user) => user._id === userId)
   if (!user) return Promise.reject('User not found!')
 
   // breakpoint - break the address not to effect the usersDB
@@ -47,6 +47,8 @@ function remove(userId) {
 function add(user) {
   return getByUsername(user.username).then((existingUser) => {
     if (!existingUser) return Promise.reject('Username taken')
+
+    console.log('user: ', user)
 
     user._id = utilService.makeId()
     users.push(user)

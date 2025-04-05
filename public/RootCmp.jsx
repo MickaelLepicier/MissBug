@@ -9,21 +9,33 @@ import { Home } from './pages/Home.jsx'
 import { BugIndex } from './pages/BugIndex.jsx'
 import { BugDetails } from './pages/BugDetails.jsx'
 import { AboutUs } from './pages/AboutUs.jsx'
+import { authService } from '../services/auth.service.js'
 
 export function App() {
-    return <Router>
-        <div className="app-wrapper">
-            <UserMsg />
-            <AppHeader />
-            <main className="container">
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/bug" element={<BugIndex />} />
-                    <Route path="/bug/:bugId" element={<BugDetails />} />
-                    <Route path="/about" element={<AboutUs />} />
-                </Routes>
-            </main>
-            <AppFooter />
-        </div>
+  const [loggedinUser, setLoggedinUser] = useState(authService.getLoginToken())
+
+  // TODO - add <LoginSignup> and create it then the same with <UserDetails>
+
+  return (
+    <Router>
+      <div className="app-wrapper">
+        <UserMsg />
+        <AppHeader loggedinUser={loggedinUser} setLoggedinUser={setLoggedinUser} />
+        <main className="container">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/bug" element={<BugIndex />} />
+            <Route path="/bug/:bugId" element={<BugDetails />} />
+            <Route path="/about" element={<AboutUs />} />
+          
+            <Route path="/auth" element={ <LoginSignup setLoggedinUser={setLoggedinUser} />} />
+          
+            <Route path="/user" element={<UserIndex />} />
+            <Route path="/user/:userId" element={<UserDetails />}/>
+          </Routes>
+        </main>
+        <AppFooter />
+      </div>
     </Router>
+  )
 }
