@@ -14,8 +14,6 @@ import { authService } from '../services/auth.service.js'
 export function App() {
   const [loggedinUser, setLoggedinUser] = useState(authService.getLoginToken())
 
-  // TODO - add <UserDetails>
-
   return (
     <Router>
       <div className="app-wrapper">
